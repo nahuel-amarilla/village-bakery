@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Village Bakery & Sandwich Shop | Hyde, Tameside</title>
+<meta name="description" content="The Village Bakery & Sandwich Shop in Hyde, Tameside. Fresh breads, cakes, sandwiches and sweet treats made daily. Visit us at 263 Stockport Road.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FAF6EE;
+    --warm-white: #FDF9F3;
+    --beige: #EDE0CC;
+    --sand: #D4B896;
+    --gold: #B8860B;
+    --gold-light: #D4A017;
+    --gold-shine: #F0C040;
+    --brown-dark: #2C1A0E;
+    --brown-mid: #5C3D1E;
+    --brown-warm: #8B5E3C;
+    --brown-soft: #A67C52;
+    --text-dark: #1E120A;
+    --text-mid: #4A2E1A;
+    --text-soft: #7A5C3E;
+    --shadow-warm: rgba(92,61,30,0.15);
+    --shadow-gold: rgba(184,134,11,0.2);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; font-size: 16px; }
+
+  body {
+    background: var(--cream);
+    color: var(--text-dark);
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--beige); }
+  ::-webkit-scrollbar-thumb { background: var(--brown-soft); border-radius: 3px; }
+
+  /* ── NAVBAR ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    padding: 0 5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+    transition: all 0.4s ease;
+  }
+  nav.scrolled {
+    background: rgba(250,246,238,0.97);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 2px 30px var(--shadow-warm);
+    height: 60px;
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--cream);
+    letter-spacing: 0.02em;
+    transition: color 0.4s;
+    text-decoration: none;
+  }
+  nav.scrolled .nav-logo { color: var(--brown-dark); }
+
+  .nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
+  .nav-links a {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.85);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  nav.scrolled .nav-links a { color: var(--text-mid); }
+  .nav-links a:hover { color: var(--gold-light) !important; }
+  .nav-cta {
+    background: var(--gold);
+    color: #fff !important;
+    padding: 0.5rem 1.4rem;
+    border-radius: 2px;
+    transition: background 0.3s, transform 0.2s !important;
+  }
+  .nav-cta:hover { background: var(--gold-light) !important; transform: translateY(-1px); }
+
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+  .hamburger span { width: 24px; height: 2px; background: var(--cream); border-radius: 2px; transition: all 0.3s; }
+  nav.scrolled .hamburger span { background: var(--brown-dark); }
+
+  /* ── HERO ── */
+  #hero {
+    position: relative;
+    height: 100vh;
+    min-height: 680px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background-image: 
+      linear-gradient(to bottom, rgba(20,10,3,0.55) 0%, rgba(20,10,3,0.3) 40%, rgba(20,10,3,0.65) 100%),
+      url('https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=1800&q=85&auto=format');
+    background-size: cover;
+    background-position: center 30%;
+    transform: scale(1.05);
+    transition: transform 8s ease-out;
+  }
+  #hero.loaded .hero-bg { transform: scale(1); }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 0 1.5rem;
+    max-width: 900px;
+  }
+  .hero-eyebrow {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold-shine);
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.8s 0.3s forwards;
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 7vw, 6rem);
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+    opacity: 0;
+    transform: translateY(25px);
+    animation: fadeUp 0.9s 0.5s forwards;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold-shine);
+  }
+  .hero-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+    font-weight: 300;
+    font-style: italic;
+    color: rgba(255,255,255,0.82);
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.9s 0.7s forwards;
+  }
+  .hero-divider {
+    width: 60px; height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold-shine), transparent);
+    margin: 0 auto 2.5rem;
+    opacity: 0;
+    animation: fadeIn 1s 0.9s forwards;
+  }
+  .hero-btns {
+    display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.9s 1s forwards;
+  }
+  .btn-primary {
+    background: var(--gold);
+    color: #fff;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 1rem 2.2rem;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: background 0.3s, transform 0.25s, box-shadow 0.3s;
+    display: inline-block;
+  }
+  .btn-primary:hover {
+    background: var(--gold-light);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(180,130,0,0.35);
+  }
+  .btn-outline {
+    background: transparent;
+    color: #fff;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 1rem 2.2rem;
+    border: 1px solid rgba(255,255,255,0.55);
+    cursor: pointer;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: background 0.3s, border-color 0.3s, transform 0.25s;
+    display: inline-block;
+  }
+  .btn-outline:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: #fff;
+    transform: translateY(-3px);
+  }
+  .hero-scroll {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    opacity: 0;
+    animation: fadeIn 1s 1.5s forwards;
+  }
+  .scroll-text {
+    font-size: 0.68rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+  }
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.6), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+
+  /* ── SECTION BASE ── */
+  section { padding: 6rem 5%; }
+  .section-label {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.8rem;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    color: var(--brown-dark);
+    line-height: 1.2;
+    margin-bottom: 1.2rem;
+  }
+  .section-title em { font-style: italic; color: var(--brown-warm); }
+  .gold-rule {
+    width: 50px; height: 2px;
+    background: linear-gradient(to right, var(--gold), var(--gold-light));
+    margin-bottom: 1.5rem;
+  }
+  .section-body {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    font-weight: 400;
+    color: var(--text-soft);
+    line-height: 1.85;
+    max-width: 600px;
+  }
+
+  /* ── ABOUT ── */
+  #about {
+    background: var(--warm-white);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+  .about-img-wrap {
+    position: relative;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .about-img-wrap::before {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border: 1px solid var(--gold);
+    border-radius: 4px;
+    z-index: 2;
+    pointer-events: none;
+    opacity: 0.4;
+    transform: translate(8px, 8px);
+  }
+  .about-img-wrap img {
+    width: 100%;
+    height: 480px;
+    object-fit: cover;
+    border-radius: 4px;
+    display: block;
+    transition: transform 0.7s ease;
+  }
+  .about-img-wrap:hover img { transform: scale(1.04); }
+  .about-badges {
+    display: flex;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+  }
+  .badge {
+    background: var(--beige);
+    border: 1px solid var(--sand);
+    border-radius: 2px;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: var(--brown-mid);
+    text-transform: uppercase;
+  }
+
+  /* ── PRODUCTS ── */
+  #products { background: var(--cream); }
+  .products-header { text-align: center; margin-bottom: 3.5rem; }
+  .products-header .gold-rule { margin: 0 auto 1.5rem; }
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .product-card {
+    position: relative;
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+    background: var(--beige);
+    box-shadow: 0 4px 20px var(--shadow-warm);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+  }
+  .product-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 50px var(--shadow-warm);
+  }
+  .product-card-img {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s ease;
+  }
+  .product-card:hover .product-card-img { transform: scale(1.08); }
+  .product-card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(20,10,3,0.75) 0%, transparent 50%);
+    opacity: 0.8;
+    transition: opacity 0.4s;
+  }
+  .product-card:hover .product-card-overlay { opacity: 1; }
+  .product-card-info {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 1.5rem;
+    transform: translateY(5px);
+    transition: transform 0.4s;
+  }
+  .product-card:hover .product-card-info { transform: translateY(0); }
+  .product-tag {
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold-shine);
+    margin-bottom: 0.3rem;
+  }
+  .product-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #fff;
+  }
+  .product-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.75);
+    margin-top: 0.3rem;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.4s 0.05s, transform 0.4s 0.05s;
+  }
+  .product-card:hover .product-desc { opacity: 1; transform: translateY(0); }
+
+  /* ── HOURS ── */
+  #hours {
+    background: var(--brown-dark);
+    color: var(--cream);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  #hours::before {
+    content: '';
+    position: absolute;
+    top: -100px; left: -100px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(184,134,11,0.08) 0%, transparent 70%);
+  }
+  #hours .section-title { color: var(--cream); }
+  #hours .section-label { color: var(--gold-shine); }
+  #hours .gold-rule { margin: 0 auto 1.5rem; }
+  .hours-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1px;
+    max-width: 900px;
+    margin: 3rem auto 0;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .hours-item {
+    padding: 1.5rem 1rem;
+    background: rgba(255,255,255,0.03);
+    transition: background 0.3s;
+    border-right: 1px solid rgba(255,255,255,0.06);
+  }
+  .hours-item:last-child { border-right: none; }
+  .hours-item:hover { background: rgba(184,134,11,0.08); }
+  .hours-item.today { background: rgba(184,134,11,0.12); }
+  .hours-item.today .hours-day { color: var(--gold-shine); }
+  .hours-day {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 0.5rem;
+  }
+  .hours-time {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    color: var(--cream);
+    font-weight: 400;
+  }
+  .hours-note {
+    margin-top: 2.5rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: rgba(255,255,255,0.45);
+  }
+
+  /* ── TESTIMONIALS ── */
+  #testimonials { background: var(--warm-white); }
+  .testimonials-header { text-align: center; margin-bottom: 3.5rem; }
+  .testimonials-header .gold-rule { margin: 0 auto; }
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .testimonial-card {
+    background: var(--cream);
+    border: 1px solid var(--beige);
+    border-radius: 4px;
+    padding: 2.5rem 2rem;
+    position: relative;
+    transition: transform 0.35s, box-shadow 0.35s;
+  }
+  .testimonial-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 45px var(--shadow-warm);
+  }
+  .testimonial-card::before {
+    content: '"';
+    position: absolute;
+    top: 1rem; left: 1.5rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem;
+    color: var(--gold);
+    opacity: 0.12;
+    line-height: 1;
+  }
+  .stars {
+    display: flex;
+    gap: 3px;
+    margin-bottom: 1rem;
+  }
+  .star { color: var(--gold); font-size: 0.9rem; }
+  .testimonial-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--text-mid);
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+  }
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  .author-avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--beige);
+  }
+  .author-name {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--brown-mid);
+  }
+  .author-location {
+    font-size: 0.72rem;
+    color: var(--text-soft);
+    letter-spacing: 0.05em;
+  }
+
+  /* ── LOCATION ── */
+  #location {
+    background: var(--cream);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+  .map-wrap {
+    border-radius: 4px;
+    overflow: hidden;
+    height: 400px;
+    box-shadow: 0 10px 40px var(--shadow-warm);
+    position: relative;
+  }
+  .map-wrap iframe {
+    width: 100%; height: 100%;
+    border: none;
+    display: block;
+  }
+  .location-details { display: flex; flex-direction: column; gap: 1.5rem; }
+  .location-item {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  .location-icon {
+    width: 42px; height: 42px;
+    background: var(--beige);
+    border: 1px solid var(--sand);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 1.1rem;
+  }
+  .location-item-text strong {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.25rem;
+  }
+  .location-item-text p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem;
+    color: var(--text-mid);
+    line-height: 1.6;
+  }
+
+  /* ── CONTACT ── */
+  #contact {
+    background: var(--beige);
+    text-align: center;
+  }
+  #contact .section-label, #contact .section-title, #contact .section-body { margin-left: auto; margin-right: auto; }
+  #contact .section-body { text-align: center; margin-bottom: 2.5rem; }
+  #contact .gold-rule { margin: 0 auto 1.5rem; }
+  .contact-btns {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+  }
+  .contact-form {
+    background: var(--warm-white);
+    border: 1px solid var(--sand);
+    border-radius: 4px;
+    padding: 3rem;
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: left;
+  }
+  .form-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--brown-dark);
+    margin-bottom: 1.5rem;
+  }
+  .form-group { margin-bottom: 1.2rem; }
+  .form-group label {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--brown-soft);
+    margin-bottom: 0.4rem;
+  }
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
+    background: var(--cream);
+    border: 1px solid var(--beige);
+    border-radius: 2px;
+    padding: 0.85rem 1rem;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.95rem;
+    color: var(--text-dark);
+    outline: none;
+    transition: border-color 0.3s;
+  }
+  .form-group input:focus,
+  .form-group textarea:focus { border-color: var(--gold); }
+  .form-group textarea { height: 120px; resize: vertical; }
+  .form-submit {
+    width: 100%;
+    background: var(--brown-dark);
+    color: #fff;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 1rem;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.25s;
+    margin-top: 0.5rem;
+  }
+  .form-submit:hover { background: var(--brown-mid); transform: translateY(-2px); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--brown-dark);
+    color: rgba(255,255,255,0.6);
+    padding: 4rem 5% 2rem;
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1.5fr;
+    gap: 3rem;
+    margin-bottom: 3rem;
+    max-width: 1200px;
+  }
+  .footer-brand-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--cream);
+    margin-bottom: 0.8rem;
+    line-height: 1.3;
+  }
+  .footer-brand-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+  .footer-social {
+    display: flex;
+    gap: 0.7rem;
+  }
+  .social-btn {
+    width: 36px; height: 36px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: background 0.3s, color 0.3s;
+  }
+  .social-btn:hover { background: var(--gold); color: #fff; }
+  .footer-heading {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold-shine);
+    margin-bottom: 1.2rem;
+  }
+  .footer-links { list-style: none; }
+  .footer-links li { margin-bottom: 0.6rem; }
+  .footer-links a {
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.55);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .footer-links a:hover { color: var(--gold-light); }
+  .footer-hours-list { list-style: none; }
+  .footer-hours-list li {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    margin-bottom: 0.45rem;
+    color: rgba(255,255,255,0.55);
+  }
+  .footer-hours-list li span:first-child { color: rgba(255,255,255,0.35); }
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding-top: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-size: 0.8rem;
+    max-width: 1200px;
+  }
+  .footer-gold-line {
+    width: 50px; height: 1px;
+    background: linear-gradient(to right, var(--gold), transparent);
+    margin-bottom: 2rem;
+  }
+
+  /* ── FLOATING BTN ── */
+  .floating-cta {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 999;
+    background: var(--gold);
+    color: #fff;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.9rem 1.6rem;
+    border-radius: 50px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 8px 25px rgba(184,134,11,0.45);
+    transform: translateY(80px);
+    opacity: 0;
+    transition: transform 0.4s, opacity 0.4s, background 0.3s, box-shadow 0.3s;
+  }
+  .floating-cta.visible { transform: translateY(0); opacity: 1; }
+  .floating-cta:hover {
+    background: var(--gold-light);
+    box-shadow: 0 12px 35px rgba(184,134,11,0.55);
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    to { opacity: 1; }
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.6; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(1.1); }
+  }
+
+  /* Reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.75s ease, transform 0.75s ease;
+  }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+  .reveal-left {
+    opacity: 0;
+    transform: translateX(-40px);
+    transition: opacity 0.75s ease, transform 0.75s ease;
+  }
+  .reveal-left.in { opacity: 1; transform: translateX(0); }
+  .reveal-right {
+    opacity: 0;
+    transform: translateX(40px);
+    transition: opacity 0.75s ease, transform 0.75s ease;
+  }
+  .reveal-right.in { opacity: 1; transform: translateX(0); }
+
+  /* Delays */
+  .d1 { transition-delay: 0.1s; }
+  .d2 { transition-delay: 0.2s; }
+  .d3 { transition-delay: 0.3s; }
+  .d4 { transition-delay: 0.4s; }
+  .d5 { transition-delay: 0.5s; }
+  .d6 { transition-delay: 0.6s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 1024px) {
+    #about { grid-template-columns: 1fr; gap: 3rem; }
+    #location { grid-template-columns: 1fr; }
+    .products-grid { grid-template-columns: repeat(2, 1fr); }
+    .testimonials-grid { grid-template-columns: repeat(2, 1fr); }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 768px) {
+    section { padding: 4rem 5%; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .products-grid { grid-template-columns: 1fr; }
+    .testimonials-grid { grid-template-columns: 1fr; }
+    .hours-grid { grid-template-columns: repeat(2, 1fr); }
+    .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .footer-bottom { flex-direction: column; text-align: center; }
+    .about-img-wrap img { height: 320px; }
+  }
+
+  /* Mobile menu overlay */
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    background: var(--brown-dark);
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2.5rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  .mobile-menu.open { opacity: 1; pointer-events: all; }
+  .mobile-menu a {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--cream);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .mobile-menu a:hover { color: var(--gold-light); }
+  .mobile-close {
+    position: absolute;
+    top: 1.5rem; right: 1.5rem;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: var(--cream);
+    cursor: pointer;
+  }
+
+  /* Urgency Banner */
+  .urgency-bar {
+    background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
+    background-size: 200% auto;
+    animation: shimmer 3s linear infinite;
+    color: #fff;
+    text-align: center;
+    padding: 0.65rem 1rem;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    position: relative;
+    z-index: 1001;
+  }
+  @keyframes shimmer { to { background-position: 200% center; } }
+</style>
+</head>
+<body>
+
+<!-- Urgency Bar -->
+<div class="urgency-bar">🥐 Fresh Bakes Available Daily — Order Before We Sell Out!</div>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" onclick="closeMobileMenu()">✕</button>
+  <a href="#about" onclick="closeMobileMenu()">About</a>
+  <a href="#products" onclick="closeMobileMenu()">Our Bakes</a>
+  <a href="#hours" onclick="closeMobileMenu()">Opening Hours</a>
+  <a href="#location" onclick="closeMobileMenu()">Find Us</a>
+  <a href="#contact" onclick="closeMobileMenu()">Contact</a>
+</div>
+
+<!-- Navbar -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">The Village Bakery</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#products">Our Bakes</a></li>
+    <li><a href="#hours">Hours</a></li>
+    <li><a href="#location">Find Us</a></li>
+    <li><a href="#contact" class="nav-cta">Contact Us</a></li>
+  </ul>
+  <div class="hamburger" onclick="openMobileMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- Floating CTA -->
+<a href="#contact" class="floating-cta" id="floatingCTA">
+  <span>🛒</span> Order Fresh Bakes
+</a>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Hyde, Tameside · Est. with Love</p>
+    <h1 class="hero-title">Freshly Baked,<br><em>Every Single Day</em></h1>
+    <p class="hero-subtitle">Homemade breads, cakes, sandwiches & sweet treats</p>
+    <div class="hero-divider"></div>
+    <div class="hero-btns">
+      <a href="#products" class="btn-primary">View Our Bakes</a>
+      <a href="#contact" class="btn-outline">Get in Touch</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span class="scroll-text">Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ── ABOUT ── -->
+<section id="about">
+  <div class="about-img-wrap reveal-left">
+    <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&q=80&auto=format" alt="Freshly baked bread and pastries at The Village Bakery">
+  </div>
+  <div class="about-text">
+    <p class="section-label reveal d1">Our Story</p>
+    <h2 class="section-title reveal d2">A Local Favourite <em>Since Day One</em></h2>
+    <div class="gold-rule reveal d2"></div>
+    <p class="section-body reveal d3">
+      Nestled in the heart of Hyde, Tameside, The Village Bakery & Sandwich Shop has been crafting fresh, homemade bakes for the local community with warmth and care. Every morning, we wake before the sun to ensure our breads, cakes, pastries and sandwiches are made to the highest standard — just like they should be.
+    </p>
+    <p class="section-body reveal d4" style="margin-top:1rem;">
+      From flaky pastries to indulgent brownies, hearty sandwiches to celebration cakes — everything is made with love, locally sourced ingredients, and the honest belief that good food brings people together.
+    </p>
+    <div class="about-badges reveal d5">
+      <span class="badge">🍞 Baked Fresh Daily</span>
+      <span class="badge">🌿 Local Ingredients</span>
+      <span class="badge">❤️ Hyde Loved</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── PRODUCTS ── -->
+<section id="products">
+  <div class="products-header">
+    <p class="section-label reveal">What We Bake</p>
+    <h2 class="section-title reveal d1">Our <em>Signature</em> Creations</h2>
+    <div class="gold-rule reveal d2"></div>
+    <p class="section-body reveal d3" style="margin: 0 auto; text-align:center;">Every item is crafted fresh each morning — from our golden pastries to our rich, fudgy brownies.</p>
+  </div>
+  <div class="products-grid">
+    <div class="product-card reveal d1">
+      <img class="product-card-img" src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600&q=80&auto=format" alt="Beautiful celebration cakes">
+      <div class="product-card-overlay"></div>
+      <div class="product-card-info">
+        <p class="product-tag">Celebration & Custom</p>
+        <h3 class="product-name">Gorgeous Cakes</h3>
+        <p class="product-desc">Layered, frosted and filled to perfection for every occasion.</p>
+      </div>
+    </div>
+    <div class="product-card reveal d2">
+      <img class="product-card-img" src="https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=600&q=80&auto=format" alt="Fudgy brownies">
+      <div class="product-card-overlay"></div>
+      <div class="product-card-info">
+        <p class="product-tag">Indulgent Bakes</p>
+        <h3 class="product-name">Fudgy Brownies</h3>
+        <p class="product-desc">Rich, dense and utterly irresistible — our most talked-about treat.</p>
+      </div>
+    </div>
+    <div class="product-card reveal d3">
+      <img class="product-card-img" src="https://images.unsplash.com/photo-1553909489-cd47e0907980?w=600&q=80&auto=format" alt="Freshly made sandwiches">
+      <div class="product-card-overlay"></div>
+      <div class="product-card-info">
+        <p class="product-tag">Lunchtime Favourites</p>
+        <h3 class="product-name">Fresh Sandwiches</h3>
+        <p class="product-desc">Generous fillings on artisan bread — made to order every day.</p>
+      </div>
+    </div>
+    <div class="product-card reveal d1">
+      <img class="product-card-img" src="https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?w=600&q=80&auto=format" alt="Flaky pastries">
+      <div class="product-card-overlay"></div>
+      <div class="product-card-info">
+        <p class="product-tag">Morning Treats</p>
+        <h3 class="product-name">Flaky Pastries</h3>
+        <p class="product-desc">Buttery croissants, pain au chocolat and seasonal specials.</p>
+      </div>
+    </div>
+    <div class="product-card reveal d2">
+      <img class="product-card-img" src="https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=600&q=80&auto=format" alt="Freshly baked cookies">
+      <div class="product-card-overlay"></div>
+      <div class="product-card-info">
+        <p class="product-tag">Biscuits & Bites</p>
+        <h3 class="product-name">Homemade Cookies</h3>
+        <p class="product-desc">Classic chocolate chip, oat and seasonal varieties baked daily.</p>
+      </div>
+    </div>
+    <div class="product-card reveal d3">
+      <img class="product-card-img" src="https://images.unsplash.com/photo-1621303837174-89787a7d4729?w=600&q=80&auto=format" alt="Sweet treats and confections">
+      <div class="product-card-overlay"></div>
+      <div class="product-card-info">
+        <p class="product-tag">Something Sweet</p>
+        <h3 class="product-name">Sweet Treats</h3>
+        <p class="product-desc">Traybakes, rocky road, lemon slices and rotating weekly specials.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── HOURS ── -->
+<section id="hours">
+  <p class="section-label reveal">We're Open</p>
+  <h2 class="section-title reveal d1">Opening <em>Hours</em></h2>
+  <div class="gold-rule reveal d2"></div>
+  <div class="hours-grid reveal d2">
+    <div class="hours-item" id="day-1">
+      <div class="hours-day">Monday</div>
+      <div class="hours-time">8:30 AM – 2:30 PM</div>
+    </div>
+    <div class="hours-item" id="day-2">
+      <div class="hours-day">Tuesday</div>
+      <div class="hours-time">8:30 AM – 2:30 PM</div>
+    </div>
+    <div class="hours-item" id="day-3">
+      <div class="hours-day">Wednesday</div>
+      <div class="hours-time">8:00 AM – 5:00 PM</div>
+    </div>
+    <div class="hours-item" id="day-4">
+      <div class="hours-day">Thursday</div>
+      <div class="hours-time">8:00 AM – 5:00 PM</div>
+    </div>
+    <div class="hours-item" id="day-5">
+      <div class="hours-day">Friday</div>
+      <div class="hours-time">8:00 AM – 5:00 PM</div>
+    </div>
+    <div class="hours-item" id="day-6">
+      <div class="hours-day">Saturday</div>
+      <div class="hours-time">8:30 AM – 2:30 PM</div>
+    </div>
+    <div class="hours-item" id="day-0">
+      <div class="hours-day">Sunday</div>
+      <div class="hours-time">8:30 AM – 2:30 PM</div>
+    </div>
+  </div>
+  <p class="hours-note reveal d3">Baking starts before we open — pop in early for the freshest picks!</p>
+</section>
+
+<!-- ── TESTIMONIALS ── -->
+<section id="testimonials">
+  <div class="testimonials-header">
+    <p class="section-label reveal">What People Say</p>
+    <h2 class="section-title reveal d1">Loved by <em>Hyde</em></h2>
+    <div class="gold-rule reveal d2"></div>
+  </div>
+  <div class="testimonials-grid">
+    <div class="testimonial-card reveal d1">
+      <div class="stars">⭐⭐⭐⭐⭐</div>
+      <p class="testimonial-text">"Amazing cakes and the freshest sandwiches in Hyde! I pop in every Wednesday without fail. The staff always make you feel so welcome — it's become my favourite little ritual."</p>
+      <div class="testimonial-author">
+        <img class="author-avatar" src="https://i.pravatar.cc/80?img=47" alt="Sarah M">
+        <div>
+          <div class="author-name">Sarah M.</div>
+          <div class="author-location">Hyde, Tameside</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card reveal d2">
+      <div class="stars">⭐⭐⭐⭐⭐</div>
+      <p class="testimonial-text">"Best brownies I've ever had — and I've tried many! Genuinely fudgy in the middle, slightly crispy on top. I always grab a box on Fridays as a treat for the weekend."</p>
+      <div class="testimonial-author">
+        <img class="author-avatar" src="https://i.pravatar.cc/80?img=12" alt="James T">
+        <div>
+          <div class="author-name">James T.</div>
+          <div class="author-location">Stockport</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card reveal d3">
+      <div class="stars">⭐⭐⭐⭐⭐</div>
+      <p class="testimonial-text">"Friendly staff and absolutely delicious treats. The pastries are freshly baked every single morning — you can tell. A real hidden gem. Highly recommend to everyone in the area!"</p>
+      <div class="testimonial-author">
+        <img class="author-avatar" src="https://i.pravatar.cc/80?img=25" alt="Claire B">
+        <div>
+          <div class="author-name">Claire B.</div>
+          <div class="author-location">Gee Cross</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── LOCATION ── -->
+<section id="location">
+  <div class="reveal-left">
+    <p class="section-label">Find Us</p>
+    <h2 class="section-title">Come Visit <em>Us</em></h2>
+    <div class="gold-rule"></div>
+    <div class="location-details">
+      <div class="location-item">
+        <div class="location-icon">📍</div>
+        <div class="location-item-text">
+          <strong>Address</strong>
+          <p>263 Stockport Road<br>Hyde, Tameside<br>United Kingdom, SK14 5RF</p>
+        </div>
+      </div>
+      <div class="location-item">
+        <div class="location-icon">✉️</div>
+        <div class="location-item-text">
+          <strong>Email</strong>
+          <p><a href="mailto:thevillagebakerygeecross@yahoo.com" style="color:var(--brown-mid); text-decoration:none;">thevillagebakerygeecross@yahoo.com</a></p>
+        </div>
+      </div>
+      <div class="location-item">
+        <div class="location-icon">📸</div>
+        <div class="location-item-text">
+          <strong>Instagram</strong>
+          <p><a href="https://instagram.com/thevillagebakerygeecross" target="_blank" style="color:var(--brown-mid); text-decoration:none;">@thevillagebakerygeecross</a></p>
+        </div>
+      </div>
+      <a href="https://www.google.com/maps/search/263+Stockport+Road,+Hyde,+Tameside,+SK14+5RF" target="_blank" class="btn-primary" style="align-self:flex-start; margin-top:0.5rem;">
+        Get Directions
+      </a>
+    </div>
+  </div>
+  <div class="map-wrap reveal-right">
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2373.2!2d-2.078!3d53.44!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x487bb1c2c8b3c8c5%3A0x123456789abcdef!2s263+Stockport+Rd%2C+Hyde%2C+SK14+5RF!5e0!3m2!1sen!2suk!4v1700000000000"
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"
+      title="The Village Bakery Location">
+    </iframe>
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section id="contact">
+  <p class="section-label reveal">Get In Touch</p>
+  <h2 class="section-title reveal d1">We'd Love to <em>Hear From You</em></h2>
+  <div class="gold-rule reveal d2"></div>
+  <p class="section-body reveal d3">Have a question, want to order a celebration cake, or just want to say hello? Reach out — we're always happy to chat.</p>
+
+  <div class="contact-btns reveal d3">
+    <a href="mailto:thevillagebakerygeecross@yahoo.com" class="btn-primary">✉️ Email Us</a>
+    <a href="https://instagram.com/thevillagebakerygeecross" target="_blank" class="btn-outline" style="color: var(--brown-dark); border-color: var(--sand);">📸 Instagram</a>
+  </div>
+
+  <div class="contact-form reveal d4">
+    <h3 class="form-title">Send Us a Message</h3>
+    <div class="form-group">
+      <label>Your Name</label>
+      <input type="text" placeholder="e.g. Jane Smith">
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" placeholder="jane@email.com">
+      </div>
+      <div class="form-group">
+        <label>Subject</label>
+        <input type="text" placeholder="e.g. Custom Cake Order">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Message</label>
+      <textarea placeholder="Tell us what you need..."></textarea>
+    </div>
+    <button class="form-submit" onclick="handleFormSubmit(this)">Send Message →</button>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand-name">The Village Bakery<br>& Sandwich Shop</div>
+      <div class="footer-gold-line"></div>
+      <p class="footer-brand-desc">Freshly baked breads, cakes, sandwiches and sweet treats — made daily with love in the heart of Hyde, Tameside.</p>
+      <div class="footer-social">
+        <a href="https://instagram.com/thevillagebakerygeecross" target="_blank" class="social-btn" title="Instagram">📸</a>
+        <a href="mailto:thevillagebakerygeecross@yahoo.com" class="social-btn" title="Email">✉️</a>
+      </div>
+    </div>
+    <div>
+      <p class="footer-heading">Quick Links</p>
+      <ul class="footer-links">
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#products">Our Bakes</a></li>
+        <li><a href="#hours">Opening Hours</a></li>
+        <li><a href="#location">Find Us</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="footer-heading">Contact</p>
+      <ul class="footer-links">
+        <li><a href="mailto:thevillagebakerygeecross@yahoo.com">Email Us</a></li>
+        <li><a href="https://instagram.com/thevillagebakerygeecross">@thevillagebakerygeecross</a></li>
+        <li><a href="https://www.google.com/maps/search/263+Stockport+Road+Hyde+SK14+5RF" target="_blank">263 Stockport Road</a></li>
+        <li><a href="#">Hyde, SK14 5RF</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="footer-heading">Opening Hours</p>
+      <ul class="footer-hours-list">
+        <li><span>Mon–Tue</span><span>8:30 – 14:30</span></li>
+        <li><span>Wed–Fri</span><span>8:00 – 17:00</span></li>
+        <li><span>Sat–Sun</span><span>8:30 – 14:30</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom" style="justify-content: center; gap: 2rem;">
+    <p>© 2025 The Village Bakery & Sandwich Shop · Hyde, Tameside</p>
+    <p style="color:rgba(255,255,255,0.35); font-weight:500;">Copyright © Architected by NCS Safety</p>
+  </div>
+</footer>
+
+<script>
+  // Navbar scroll
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 60);
+    document.getElementById('floatingCTA').classList.toggle('visible', window.scrollY > 400);
+  });
+
+  // Hero image load
+  window.addEventListener('load', () => {
+    document.getElementById('hero').classList.add('loaded');
+  });
+
+  // Highlight today's hours
+  const today = new Date().getDay();
+  const todayEl = document.getElementById('day-' + today);
+  if (todayEl) todayEl.classList.add('today');
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); observer.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => observer.observe(el));
+
+  // Parallax hero
+  window.addEventListener('scroll', () => {
+    const heroBg = document.getElementById('heroBg');
+    if (heroBg) {
+      const scrolled = window.scrollY;
+      heroBg.style.transform = `scale(1) translateY(${scrolled * 0.3}px)`;
+    }
+  });
+
+  // Mobile menu
+  function openMobileMenu() { document.getElementById('mobileMenu').classList.add('open'); }
+  function closeMobileMenu() { document.getElementById('mobileMenu').classList.remove('open'); }
+
+  // Form submit
+  function handleFormSubmit(btn) {
+    btn.textContent = '✓ Message Sent!';
+    btn.style.background = '#4a7c59';
+    setTimeout(() => {
+      btn.textContent = 'Send Message →';
+      btn.style.background = '';
+    }, 3000);
+  }
+</script>
+</body>
+</html>
